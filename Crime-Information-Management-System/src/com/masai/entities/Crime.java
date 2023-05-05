@@ -11,9 +11,8 @@ public class Crime implements Serializable {
 	    private String psArea;
 	    private String date;
 	    private String victimName;
-	    public Crime() {
-	    	super();
-	    }
+
+
 		public Crime(int crimeId, String type, String description, String psArea, String date, String victimName) {
 			super();
 			this.crimeId = crimeId;
@@ -58,6 +57,11 @@ public class Crime implements Serializable {
 		}
 		public void setVictimName(String victimName) {
 			this.victimName = victimName;
+		}
+		@Override
+		public String toString() {
+			return "Crime [crimeId=" + crimeId + ", type=" + type + ", description=" + description + ", psArea="
+					+ psArea + ", date=" + date + ", victimName=" + victimName + "]";
 		}
 	    
 

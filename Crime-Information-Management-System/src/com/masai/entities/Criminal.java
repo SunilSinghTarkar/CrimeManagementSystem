@@ -1,6 +1,8 @@
 package com.masai.entities;
 
-public class Criminal {
+import java.io.Serializable;
+
+public class Criminal implements Serializable{
 	 private int criminalId;
 	    private String name;
 	    private String dob;
@@ -60,6 +62,12 @@ public class Criminal {
 		}
 		public void setArrestedFromPsArea(String arrestedFromPsArea) {
 			this.arrestedFromPsArea = arrestedFromPsArea;
+		}
+		@Override
+		public String toString() {
+			return "Criminal [criminalId=" + criminalId + ", name=" + name + ", dob=" + dob + ", gender=" + gender
+					+ ", identifyingMark=" + identifyingMark + ", firstArrestDate=" + firstArrestDate
+					+ ", arrestedFromPsArea=" + arrestedFromPsArea + "]";
 		}
 	    
 }
