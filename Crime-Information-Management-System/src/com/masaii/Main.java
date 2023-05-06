@@ -47,10 +47,10 @@ public class Main {
 					adminUpdateCrime(sc, crime);
 					break;
 				case 3:
-					AddCriminal(sc,criminal);
+					AddCriminal(sc, criminal);
 					break;
 				case 4:
-					updateCriminal(sc,criminal);
+					updateCriminal(sc, criminal);
 					break;
 				case 5:
 					assignCriminalsToCrime(sc);
@@ -106,10 +106,10 @@ public class Main {
 		else
 			throw new IllegalArgumentException("Invalid Selection");
 		sc.nextLine();
-		
+
 		System.out.println("Enter the crime description ");
 		String description = sc.nextLine();
-		
+
 		System.out.println("Enter the poice station area");
 		String area = sc.nextLine();
 
@@ -144,17 +144,17 @@ public class Main {
 			crimeType = "Homicide";
 		else
 			throw new IllegalArgumentException("Invalid Selection");
-        sc.nextLine();
-        System.out.println("Enter the crime description ");
+		sc.nextLine();
+		System.out.println("Enter the crime description ");
 		String description = sc.nextLine();
-		
+
 		System.out.println("Enter the poice station area");
 		String area = sc.nextLine();
-		
+
 		System.out.println("Enter a date (YYYY-MM-DD): ");
 		String date = sc.nextLine();
 		System.out.println("Enter the Name of victim");
-		
+
 		String name = sc.nextLine();
 
 		Crime updateCrime = new Crime(ID, crimeType, description, area, date, name);
@@ -167,68 +167,67 @@ public class Main {
 
 	public static void AddCriminal(Scanner sc, Map<Integer, Criminal> criminal) {
 
-	    System.out.println("Please enter the criminal details:");
-	    System.out.println("Enter the Name:");
-	    String name = sc.nextLine();
-          sc.nextLine();
-	    System.out.println("Enter the Date Of Birth (YYYY-MM-DD):");
-	    String dob = sc.nextLine();
+		System.out.println("Please enter the criminal details:");
+		System.out.println("Enter the Name:");
+		sc.nextLine();
+		String name = sc.nextLine();
+		System.out.println("Enter the Date Of Birth (YYYY-MM-DD):");
+		String dob = sc.next();
 
-	    System.out.println("Enter the Gender:");
-	    String gender = sc.nextLine();
+		System.out.println("Enter the Gender:");
+		String gender = sc.next();
 
-	    System.out.println("Enter the Date of Latest Crime (YYYY-MM-DD):");
-	    String  arrestedFromPsArea= sc.nextLine();
+		System.out.println("Enter the Area of Crime:");
+		sc.nextLine();
+		String arrestedFromPsArea = sc.nextLine();
 
-	    System.out.println("Enter the Name of Identifying Mark:");
-	    String identifying_mark = sc.nextLine();
+		System.out.println("Enter the Name of Identifying Mark:");
+		String identifying_mark = sc.nextLine();
 
-	    System.out.println("Enter the First Arrest Date (YYYY-MM-DD):");
-	    String first_arrest_date = sc.nextLine();
+		System.out.println("Enter the First Arrest Date (YYYY-MM-DD):");
+		String first_arrest_date = sc.next();
 
-	    int ID = IDGenerator.generateId();
+		int ID = IDGenerator.generateId();
 
-	    Criminal newCriminal = new Criminal(ID, name, dob, gender,identifying_mark, first_arrest_date,arrestedFromPsArea);
+		Criminal newCriminal = new Criminal(ID, name, dob, gender, identifying_mark, first_arrest_date,
+				arrestedFromPsArea);
 
-	    criminal.put(ID, newCriminal);
+		criminal.put(ID, newCriminal);
 
-	    System.out.println("Criminal added successfully.");
+		System.out.println("Criminal added successfully.");
 	}
 
+	public static void updateCriminal(Scanner sc, Map<Integer, Criminal> criminal) throws criminalException {
 
-	public static void updateCriminal(Scanner sc,Map<Integer, Criminal> criminal) throws criminalException {
+		System.out.println("Please enter the criminal details:");
+		System.out.println("Enter the Criminal ID:");
+		int ID = sc.nextInt();
+		sc.nextLine();
+		System.out.println("Enter the Name:");
+		String name = sc.nextLine();
+//		sc.nextLine();
+		System.out.println("Enter the Date Of Birth (YYYY-MM-DD):");
+		String dob = sc.nextLine();
 
-		
-		 System.out.println("Please enter the criminal details:");
-		
-		    System.out.println("Enter the Criminal ID:");
-		    int ID = sc.nextInt();
-		    sc.nextLine();
-		    System.out.println("Enter the Name:");
-		    String name = sc.nextLine();
-//	          sc.nextLine();
-		    System.out.println("Enter the Date Of Birth (YYYY-MM-DD):");
-		    String dob = sc.nextLine();
+		System.out.println("Enter the Gender:");
+		String gender = sc.nextLine();
 
-		    System.out.println("Enter the Gender:");
-		    String gender = sc.nextLine();
+		System.out.println("Enter the Area of  Crime :");
+		String arrestedFromPsArea = sc.nextLine();
 
-		    System.out.println("Enter the Date of Latest Crime (YYYY-MM-DD):");
-		    String  arrestedFromPsArea= sc.nextLine();
+		System.out.println("Enter the Name of Identifying Mark:");
+		String identifying_mark = sc.nextLine();
 
-		    System.out.println("Enter the Name of Identifying Mark:");
-		    String identifying_mark = sc.nextLine();
+		System.out.println("Enter the First Arrest Date (YYYY-MM-DD):");
+		String first_arrest_date = sc.nextLine();
 
-		    System.out.println("Enter the First Arrest Date (YYYY-MM-DD):");
-		    String first_arrest_date = sc.nextLine();
+		Criminal newCriminal = new Criminal(ID, name, dob, gender, identifying_mark, first_arrest_date,
+				arrestedFromPsArea);
 
+		CriminalServices crService = new CriminalServicesImpl();
+		crService.updateCriminal(newCriminal, criminal);
 
-		    Criminal newCriminal = new Criminal(ID, name, dob, gender,identifying_mark, first_arrest_date,arrestedFromPsArea);
-             
-		    CriminalServices crService = new CriminalServicesImpl();
-		    crService.updateCriminal(newCriminal,criminal);
-
-		    System.out.println("Criminal updated successfully.");
+		System.out.println("Criminal updated successfully.");
 
 	}
 
