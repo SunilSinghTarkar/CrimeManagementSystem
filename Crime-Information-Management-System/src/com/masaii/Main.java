@@ -31,11 +31,11 @@ public class Main {
 				System.out.println("Press 2 Update crime details");
 				System.out.println("Press 3 Add criminal details");
 				System.out.println("Press 4 Update criminal details");
-				System.out.println("Press 5 Assign criminals to crime");
-				System.out.println("Press 6 Remove criminal from crime");
-				System.out.println("Press 7 Delete crime using crime_id");
-				System.out.println("Press 8 Delete criminal using criminal_id");
-				System.out.println("Press 9 to log out");
+//				System.out.println("Press 5 Assign criminals to crime");
+//				System.out.println("Press 6 Remove criminal from crime");
+				System.out.println("Press 5 Delete crime using crime_id");
+				System.out.println("Press 6 Delete criminal using criminal_id");
+				System.out.println("Press 7 to log out");
 				choice = sc.nextInt();
 
 				switch (choice) {
@@ -52,31 +52,50 @@ public class Main {
 				case 4:
 					updateCriminal(sc, criminal);
 					break;
+//				case 5:
+//					assignCriminalsToCrime(sc);
+//					break;
+//				case 5:
+//					removeCriminalsfromCrime(sc);
+//					break;
 				case 5:
-					assignCriminalsToCrime(sc);
+					deleteCrime(sc,crime);
 					break;
 				case 6:
-					removeCriminalsfromCrime(sc);
+					deleteCriminal(sc,criminal);
 					break;
 				case 7:
-					deleteCrime(sc);
-					break;
-				case 8:
-					deleteCriminal(sc);
-					break;
-				case 9:
 					System.out.println("admin has successfully logout");
 					break;
 				default:
 					throw new IllegalArgumentException("Unexpected value: " + choice);
 				}
 
-			} while (choice <= 8);
+			} while (choice <= 6);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 	}
-
+    	public static void deleteCrime(Scanner sc, Map<Integer, Crime> crimes)throws crimeException{
+    	    System.out.println("Enter the ID of the crime to delete: ");
+    	    int id = sc.nextInt();
+    	    if (crimes.containsKey(id)) {
+    	        crimes.remove(id);
+    	        System.out.println("Crime with ID " + id + " has been deleted.");
+    	    } else {
+    	         throw new crimeException("Crime with ID " + id + " not found.");
+    	    }
+    	}
+    	public static void deleteCriminal(Scanner sc, Map<Integer, Criminal> criminal)throws criminalException{
+    	    System.out.println("Enter the ID of the criminal to delete: ");
+    	    int id = sc.nextInt();
+    	    if (criminal.containsKey(id)) {
+    	    	criminal.remove(id);
+    	        System.out.println("Criminal with ID " + id + " has been deleted.");
+    	    } else {
+    	         throw new criminalException("Criminal with ID " + id + " not found.");
+    	    }
+    	}
 	public static void adminLogin(Scanner sc) throws InvalidDetailsException {
 
 		System.out.println("Enter the user name");
@@ -256,11 +275,116 @@ public class Main {
 		int id = sc.nextInt();
 	}
 
+	public static void publicFunctionality(Scanner sc, Map<Integer, Crime> crime, Map<Integer, Criminal> criminal) {
+		System.out.println("Welcome , Here to view crime");
+		int choice = 0;
+		do {
+			try {
+				System.out.println("Press 1 for view all crime");
+				System.out.println("Press 2 for view all crime by type");
+				System.out.println("Press 3 for view Criminal by name");
+				System.out.println("Press 4 to search crime by discription");
+				System.out.println("Press 0 for view");
+				choice = sc.nextInt();
+				switch (choice) {
+				case 1: {
+					for (Map.Entry<Integer, Crime> cri : crime.entrySet()) {
+						System.out.println(cri.getValue());
+					}
+					break;
+				}
+				case 2: {
+					seeCrimeByType(sc, crime);
+					break;
+				}
+				case 3: {
+
+					seeCriminalByName(sc, criminal);
+					break;
+				}
+				case 4:{
+					seeCriminalDiscription(sc, crime);
+					break;
+				}
+				case 0: {
+					System.out.println("Successfully Exited");
+					break;
+				}
+				}
+
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+
+		} while (choice != 0);
+	}
+
+	public static void seeCrimeByType(Scanner sc, Map<Integer, Crime> crime) throws crimeException {
+		System.out.println("Enter the  crime type");
+		System.out.println("Select the crime type" + " 1--> Robbery , 2--> Theft , 3--> Homicide ");
+		int type = sc.nextInt();
+		String crimeType = "";
+		if (type == 1)
+			crimeType = "Robbery";
+		else if (type == 2)
+			crimeType = "Theft";
+		else if (type == 3)
+			crimeType = "Homicide";
+		else
+			throw new IllegalArgumentException("Invalid Selection");
+//		String type = sc.next();
+		System.out.println(crimeType);
+		boolean ans = false;
+		for (Map.Entry<Integer, Crime> cri : crime.entrySet()) {
+			if (cri.getValue().getType().equals(crimeType)) {
+				ans = true;
+				System.out.println(cri.getValue());
+			}
+		}
+		if (!ans) {
+			throw new crimeException("No record found for this crime type");
+		}
+
+	}
+
+	public static void seeCriminalByName(Scanner sc, Map<Integer, Criminal> criminal) throws crimeException {
+		System.out.println("Write criminal name");
+		sc.nextLine();
+		String name = sc.nextLine();
+		System.out.println(name);
+		boolean ans = false;
+		for (Map.Entry<Integer, Criminal> crimi : criminal.entrySet()) {
+			if (crimi.getValue().getName().equals(name)) {
+				System.out.println(crimi.getValue());
+				ans = true;
+			}
+		}
+		if(!ans) {
+			throw new crimeException("No criminal found");
+		}
+	}
+
+	public static void seeCriminalDiscription(Scanner sc,  Map<Integer, Crime> crime) throws crimeException {
+		System.out.println("Write the discription of crime");
+		sc.nextLine();
+		String disc = sc.nextLine();
+		boolean ans = false;
+		for (Map.Entry<Integer, Crime> cri : crime.entrySet()) {
+			if (cri.getValue().getDescription().equals(disc)) {
+				ans = true;
+				System.out.println(cri.getValue());
+			}
+		}
+		if (!ans) {
+			throw new crimeException("No record found for this crime type");
+		}
+		
+	}
 	public static void main(String args[]) {
 		Map<Integer, Crime> crime = FileExists.crimeFile();
 		Map<Integer, Criminal> criminal = FileExists.criminalFile();
-		System.out.println(crime);
-		System.out.println(criminal);
+//		System.out.println(crime);
+//		System.out.println(criminal);
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Welcome To Crime Information  Management System");
 
@@ -276,7 +400,7 @@ public class Main {
 					adminFunctionality(sc, crime, criminal);
 					break;
 				case 2:
-
+					publicFunctionality(sc, crime, criminal);
 					break;
 
 				case 0:
@@ -296,17 +420,17 @@ public class Main {
 
 			System.out.println(e.getMessage());
 		} finally {
-			// serialization (finally always executed)
+		
 			try {
 				ObjectOutputStream poos = new ObjectOutputStream(new FileOutputStream("Crime.ser"));
 				poos.writeObject(crime);
 				poos.close();
-				System.out.println(crime);
+
 				ObjectOutputStream coos = new ObjectOutputStream(new FileOutputStream("Criminal.ser"));
 				coos.writeObject(criminal);
 				coos.close();
-				System.out.println(criminal);
-				System.out.println("serialized..........");
+
+
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
